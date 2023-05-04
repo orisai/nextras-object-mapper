@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace OriNextras\ObjectMapper\EntityFromId;
+namespace OriNextras\ObjectMapper\Rules;
 
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Nextras\Orm\Entity\IEntity;
-use Orisai\ObjectMapper\Attributes\Expect\RuleAttribute;
 use Orisai\ObjectMapper\Meta\Compile\RuleCompileMeta;
+use Orisai\ObjectMapper\Rules\RuleAttribute;
 
 /**
  * @Annotation

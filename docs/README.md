@@ -29,7 +29,7 @@ Map id of an entity to the entity
 
 ```php
 use App\User\DB\User;
-use OriNextras\ObjectMapper\EntityFromId\EntityFromId;
+use OriNextras\ObjectMapper\Rules\EntityFromId;
 use Orisai\ObjectMapper\Attributes\Expect\IntValue;
 use Orisai\ObjectMapper\Attributes\Modifiers\FieldName;
 use Orisai\ObjectMapper\MappedObject;

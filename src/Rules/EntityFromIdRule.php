@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace OriNextras\ObjectMapper\EntityFromId;
+namespace OriNextras\ObjectMapper\Rules;
 
 use Nextras\Orm\Entity\IEntity;
 use Nextras\Orm\Model\IModel;
