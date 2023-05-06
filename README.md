@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-    Object mapper rules for <a href="https://github.com/nextras/orm">nextras/orm</a>
+	<a href="https://github.com/orisai/object-mapper">orisai/object-mapper</a> extension for <a href="https://github.com/nextras/orm">nextras/orm</a>
 </p>
 
 <p align="center">

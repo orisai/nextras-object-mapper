@@ -1,6 +1,6 @@
 {
 	"name": "orisai/nextras-object-mapper",
-	"description": "Object mapper rules for nextras/orm",
+	"description": "orisai/object-mapper extension for nextras/orm",
 	"keywords": [
 		"entity",
 		"nextras",

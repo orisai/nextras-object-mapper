@@ -1,6 +1,7 @@
 # Nextras Object Mapper
 
-Object mapper rules for [nextras/orm](https://github.com/nextras/orm)
+[orisai/object-mapper](https://github.com/orisai/object-mapper) extension
+for [nextras/orm](https://github.com/nextras/orm)
 
 ## Content
 
