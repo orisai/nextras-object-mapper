@@ -17,14 +17,30 @@ Install with [Composer](https://getcomposer.org)
 composer require orisai/nextras-object-mapper
 ```
 
+Register rules
+
+With default setup:
+
+```php
+use OriNextras\ObjectMapper\Rules\EntityFromIdRule;
+
+$ruleManager->addRule(new EntityFromIdRule($model));
+```
+
+Or with Nette:
+
+```neon
+orisai.objectMapper:
+	rules:
+		- OriNextras\ObjectMapper\Rules\EntityFromIdRule()
+```
+
 ## Rules
 
 ### entity from id rule
 
 Map id of an entity to the entity
 
-- Register rule into rule manager (may differ for pure [object mapper](https://github.com/orisai/object-mapper) and its
-  integrations - e.g. [for Nette](https://github.com/orisai/nette-object-mapper))
 - Both doctrine/annotations and PHP attributes syntax can be used
 - Usage in array and list rules results into single query (no n+1 problem)
 
