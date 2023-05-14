@@ -1,6 +1,0 @@
-parameters:
-	ignoreErrors:
-		-
-			message: "#^Method OriNextras\\\\ObjectMapper\\\\Rules\\\\EntityFromId\\:\\:getType\\(\\) should return class\\-string\\<Orisai\\\\ObjectMapper\\\\Rules\\\\Rule\\<Orisai\\\\ObjectMapper\\\\Args\\\\Args\\>\\> but returns 'OriNextras\\\\\\\\ObjectMapper\\\\\\\\Rules\\\\\\\\EntityFromIdRule'\\.$#"
-			count: 1
-			path: ../src/Rules/EntityFromId.php
