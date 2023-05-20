@@ -2,6 +2,7 @@
 
 namespace OriNextras\ObjectMapper\Rules;
 
+use Attribute;
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Doctrine\Common\Annotations\Annotation\Target;
 use Nextras\Orm\Entity\IEntity;
@@ -13,6 +14,7 @@ use Orisai\ObjectMapper\Rules\RuleDefinition;
  * @NamedArgumentConstructor()
  * @Target({"PROPERTY", "ANNOTATION"})
  */
+#[Attribute(Attribute::TARGET_PROPERTY)]
 final class EntityFromId implements RuleDefinition
 {
 

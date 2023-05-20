@@ -10,6 +10,7 @@ use Orisai\ObjectMapper\Tester\DefinitionTester;
 use PHPUnit\Framework\TestCase;
 use Tests\OriNextras\ObjectMapper\Doubles\TestEntity;
 use function get_class;
+use const PHP_VERSION_ID;
 
 final class EntityFromIdTest extends TestCase
 {
@@ -34,6 +35,9 @@ final class EntityFromIdTest extends TestCase
 		);
 
 		DefinitionTester::assertIsRuleAnnotation(get_class($definition));
+		if (PHP_VERSION_ID >= 8_00_00) {
+			DefinitionTester::assertIsRuleAttribute(get_class($definition));
+		}
 	}
 
 }
