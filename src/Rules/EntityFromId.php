@@ -4,14 +4,10 @@ namespace OriNextras\ObjectMapper\Rules;
 
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Nextras\Orm\Entity\IEntity;
-use Orisai\ObjectMapper\Args\Args;
 use Orisai\ObjectMapper\Meta\Compile\RuleCompileMeta;
-use Orisai\ObjectMapper\Rules\Rule;
 use Orisai\ObjectMapper\Rules\RuleDefinition;
 
 /**
- * @implements RuleDefinition<EntityFromIdRule>
- *
  * @Annotation
  * @NamedArgumentConstructor()
  * @Target({"PROPERTY", "ANNOTATION"})
@@ -28,7 +24,6 @@ final class EntityFromId implements RuleDefinition
 
 	/**
 	 * @param class-string<IEntity> $entity
-	 * @param RuleDefinition<Rule<Args>> $idRule
 	 */
 	public function __construct(string $name, string $entity, RuleDefinition $idRule)
 	{
