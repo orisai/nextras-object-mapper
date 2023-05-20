@@ -3,6 +3,7 @@
 namespace OriNextras\ObjectMapper\Rules;
 
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+use Doctrine\Common\Annotations\Annotation\Target;
 use Nextras\Orm\Entity\IEntity;
 use Orisai\ObjectMapper\Meta\Compile\RuleCompileMeta;
 use Orisai\ObjectMapper\Rules\RuleDefinition;
