@@ -59,7 +59,7 @@ final class EntityFetchingInput implements MappedObject
 	 * @EntityFromId(
 	 *     name="userId"
 	 *     entity=User::class
-	 *     idRule=@IntValue(unsigned=true, castNumericString=true)
+	 *     idDefinition=@IntValue(unsigned=true, castNumericString=true)
 	 * )
 	 */
 	public User $user;

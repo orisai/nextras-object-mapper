@@ -28,11 +28,11 @@ final class EntityFromId implements RuleDefinition
 	/**
 	 * @param class-string<IEntity> $entity
 	 */
-	public function __construct(string $name, string $entity, RuleDefinition $idRule)
+	public function __construct(string $name, string $entity, RuleDefinition $idDefinition)
 	{
 		$this->name = $name;
 		$this->entity = $entity;
-		$this->idRule = new RuleCompileMeta($idRule->getType(), $idRule->getArgs());
+		$this->idRule = new RuleCompileMeta($idDefinition->getType(), $idDefinition->getArgs());
 	}
 
 	public function getType(): string
