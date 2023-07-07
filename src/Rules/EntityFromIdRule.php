@@ -8,8 +8,8 @@ use Nextras\Orm\Repository\IRepository;
 use Orisai\Exceptions\Logic\InvalidArgument;
 use Orisai\ObjectMapper\Args\Args;
 use Orisai\ObjectMapper\Args\ArgsChecker;
+use Orisai\ObjectMapper\Context\ArgsContext;
 use Orisai\ObjectMapper\Context\FieldContext;
-use Orisai\ObjectMapper\Context\RuleArgsContext;
 use Orisai\ObjectMapper\Context\TypeContext;
 use Orisai\ObjectMapper\Exception\ValueDoesNotMatch;
 use Orisai\ObjectMapper\Meta\Compile\RuleCompileMeta;
@@ -38,7 +38,7 @@ final class EntityFromIdRule implements MultiValueEfficientRule
 		$this->model = $model;
 	}
 
-	public function resolveArgs(array $args, RuleArgsContext $context): Args
+	public function resolveArgs(array $args, ArgsContext $context): Args
 	{
 		$checker = new ArgsChecker($args, self::class);
 		$checker->checkAllowedArgs([self::Name, self::Entity, self::IdRule]);
