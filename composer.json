@@ -18,7 +18,7 @@
 		}
 	],
 	"require": {
-		"php": "7.4 - 8.3",
+		"php": "7.4 - 8.4",
 		"nextras/orm": "^4.0.0",
 		"orisai/exceptions": "^1.0.0",
 		"orisai/object-mapper": "^0.3.0"
