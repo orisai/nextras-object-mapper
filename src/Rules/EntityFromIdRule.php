@@ -8,13 +8,14 @@ use Nextras\Orm\Repository\IRepository;
 use Orisai\Exceptions\Logic\InvalidArgument;
 use Orisai\ObjectMapper\Args\Args;
 use Orisai\ObjectMapper\Args\ArgsChecker;
-use Orisai\ObjectMapper\Context\ArgsContext;
-use Orisai\ObjectMapper\Context\FieldContext;
-use Orisai\ObjectMapper\Context\TypeContext;
 use Orisai\ObjectMapper\Exception\ValueDoesNotMatch;
 use Orisai\ObjectMapper\Meta\Compile\RuleCompileMeta;
+use Orisai\ObjectMapper\Meta\Context\MetaFieldContext;
+use Orisai\ObjectMapper\Processing\Context\DynamicContext;
+use Orisai\ObjectMapper\Processing\Context\PropertyContext;
+use Orisai\ObjectMapper\Processing\Context\ServicesContext;
 use Orisai\ObjectMapper\Processing\Value;
-use Orisai\ObjectMapper\Rules\MultiValueEfficientRule;
+use Orisai\ObjectMapper\Rules\PhasedRule;
 use Orisai\ObjectMapper\Types\SimpleValueType;
 use ReflectionClass;
 use Throwable;
@@ -22,9 +23,9 @@ use function is_string;
 use function is_subclass_of;
 
 /**
- * @implements MultiValueEfficientRule<EntityFromIdArgs>
+ * @implements PhasedRule<EntityFromIdArgs>
  */
-final class EntityFromIdRule implements MultiValueEfficientRule
+final class EntityFromIdRule implements PhasedRule
 {
 
 	private const Name = 'name',
@@ -38,7 +39,7 @@ final class EntityFromIdRule implements MultiValueEfficientRule
 		$this->model = $model;
 	}
 
-	public function resolveArgs(array $args, ArgsContext $context): Args
+	public function resolveArgs(array $args, MetaFieldContext $context): EntityFromIdArgs
 	{
 		$checker = new ArgsChecker($args, self::class);
 		$checker->checkAllowedArgs([self::Name, self::Entity, self::IdRule]);
@@ -90,29 +91,47 @@ final class EntityFromIdRule implements MultiValueEfficientRule
 	 * @param EntityFromIdArgs $args
 	 * @return mixed
 	 */
-	public function processValue($value, Args $args, FieldContext $context)
+	public function processValue(
+		$value,
+		Args $args,
+		ServicesContext $services,
+		PropertyContext $property,
+		DynamicContext $dynamic
+	)
 	{
-		$id = $this->processValuePhase1($value, $args, $context);
+		$id = $this->processValuePhase1($value, $args, $services, $property, $dynamic);
 
-		return $this->processValuePhase3($id, $args, $context);
+		return $this->processValuePhase3($id, $args, $services, $property, $dynamic);
 	}
 
 	/**
 	 * @param EntityFromIdArgs $args
 	 */
-	public function processValuePhase1($value, Args $args, FieldContext $context)
+	public function processValuePhase1(
+		$value,
+		Args $args,
+		ServicesContext $services,
+		PropertyContext $property,
+		DynamicContext $dynamic
+	)
 	{
 		$itemMeta = $args->idRule;
-		$itemRule = $context->getRule($itemMeta->getType());
+		$itemRule = $services->getRule($itemMeta->getType());
 		$itemArgs = $itemMeta->getArgs();
 
-		return $itemRule->processValue($value, $itemArgs, $context);
+		return $itemRule->processValue($value, $itemArgs, $services, $property, $dynamic);
 	}
 
 	/**
 	 * @param EntityFromIdArgs $args
 	 */
-	public function processValuePhase2(array $values, Args $args, FieldContext $context): void
+	public function processValuePhase2(
+		array $values,
+		Args $args,
+		ServicesContext $services,
+		PropertyContext $property,
+		DynamicContext $dynamic
+	): void
 	{
 		$repository = $this->getRepository($args);
 		$repository->findByIds([$values]);
@@ -121,16 +140,22 @@ final class EntityFromIdRule implements MultiValueEfficientRule
 	/**
 	 * @param EntityFromIdArgs $args
 	 */
-	public function processValuePhase3($value, Args $args, FieldContext $context)
+	public function processValuePhase3(
+		$value,
+		Args $args,
+		ServicesContext $services,
+		PropertyContext $property,
+		DynamicContext $dynamic
+	)
 	{
 		$repository = $this->getRepository($args);
 		$entity = $repository->getById($value);
 
 		if ($entity === null) {
-			throw ValueDoesNotMatch::create($this->createType($args, $context), Value::of($value));
+			throw ValueDoesNotMatch::create($this->createType($args, $services, $dynamic), Value::of($value));
 		}
 
-		return $context->shouldInitializeObjects()
+		return $dynamic->shouldInitializeObjects()
 			? $entity
 			: $value;
 	}
@@ -138,7 +163,11 @@ final class EntityFromIdRule implements MultiValueEfficientRule
 	/**
 	 * @param EntityFromIdArgs $args
 	 */
-	public function createType(Args $args, TypeContext $context): SimpleValueType
+	public function createType(
+		Args $args,
+		ServicesContext $services,
+		DynamicContext $dynamic
+	): SimpleValueType
 	{
 		return new SimpleValueType($args->name);
 	}
