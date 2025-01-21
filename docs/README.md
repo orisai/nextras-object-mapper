@@ -44,12 +44,40 @@ Map id of an entity to the entity
 - Both doctrine/annotations and PHP attributes syntax can be used
 - Usage in array and list rules results into single query (no n+1 problem)
 
+<details open>
+	<summary><code>#[Attributes()]</code></summary>
+
 ```php
 use App\User\DB\User;
 use OriNextras\ObjectMapper\Rules\EntityFromId;
-use Orisai\ObjectMapper\Attributes\Expect\IntValue;
-use Orisai\ObjectMapper\Attributes\Modifiers\FieldName;
 use Orisai\ObjectMapper\MappedObject;
+use Orisai\ObjectMapper\Modifiers\FieldName;
+use Orisai\ObjectMapper\Rules\IntValue;
+
+final class EntityFetchingInput implements MappedObject
+{
+
+	#[FieldName('userId')]
+	#[EntityFromId(
+		name: 'userId',
+		entity: User::class,
+		idDefinition: new IntValue(unsigned: true, castNumericString: true)),
+	]
+	public User $user;
+
+}
+```
+</details>
+
+<details>
+	<summary><code>@Annotations()</code></summary>
+
+```php
+use App\User\DB\User;
+use OriNextras\ObjectMapper\Rules\EntityFromId;
+use Orisai\ObjectMapper\MappedObject;
+use Orisai\ObjectMapper\Modifiers\FieldName;
+use Orisai\ObjectMapper\Rules\IntValue;
 
 final class EntityFetchingInput implements MappedObject
 {
@@ -66,6 +94,7 @@ final class EntityFetchingInput implements MappedObject
 
 }
 ```
+</details>
 
 ```php
 $data = [
